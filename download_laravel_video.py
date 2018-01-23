@@ -11,8 +11,6 @@ def login():
     login_url = "https://www.codecasts.com/user/login"
     # get方式请求login画面获取页面内容
     session = requests.session()
-    cookie = session.cookies
-    print(cookie.items())
     page = session.get(login_url)
     content = page.content
     # 转化为soap对象
