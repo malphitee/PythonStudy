@@ -1,0 +1,29 @@
+{
+  "inbound": {
+    "protocol": "vmess",
+    "port": 10000-20000,
+    "tag": "detour",
+    "settings": {
+      "default": {
+        "level": 1,
+        "alterId": 32
+      }
+      ，
+      "clients": [
+        {
+          "id": "bcdd30c6-c22e-47b2-b30e-917d95db56cd",
+          "alterId": 32
+        }
+      ]
+    },
+    "allocate": {
+      "strategy": "random",
+      "concurrency": 2,
+      "refresh": 5
+    }
+  },
+  "outbound": {
+    "protocol": "freedom",
+    "settings": {}
+  }
+}
