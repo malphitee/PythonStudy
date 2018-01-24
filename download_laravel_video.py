@@ -66,7 +66,7 @@ def get_article_detail(session, url):
 
 def selenium_login():
     try:
-        browser = webdriver.Chrome("./chromedriver.exe")
+        browser = webdriver.Chrome("./chromedriver")
         browser.get("https://www.codecasts.com/user/login")
         browser.find_element_by_id("email").send_keys("malphitee@163.com")
         browser.find_element_by_id("password").send_keys("liuqiang1293")
@@ -109,20 +109,17 @@ def update_file_name(article_list, local_path):
 
 def move_files(src_dir, dst_dir):
     try:
-        index = 0
-        for file in os.listdir(src_dir):
-            
-            index = index + 1
-            str_reg = "^"+str(index)+"-"
-            print(str_reg)
-            print(re.search(str_reg, file))
 
-            if re.search(str_reg, file):
-                src_path = src_dir + "/" + file
-                dst_path = dst_dir + "/" + file
-                #shutil.move(src_path, dst_path)
-                print("src=%s \n dst= %s" %(src_path,dst_dir))
-                print("移动 %s 至 %s" % (src_path, dst_path))
+        for file in os.listdir(src_dir):
+            for index in range(1, len(os.listdir(src))):
+                str_reg = "^" + str(index) + "-"
+
+                if re.search(str_reg, file):
+                    src_path = src_dir + "/" + file
+                    dst_path = dst_dir + "/" + file
+                    shutil.move(src_path, dst_path)
+                    print("src=%s \n dst= %s" % (src_path, dst_dir))
+                    print("移动 %s 至 %s" % (src_path, dst_path))
     except Exception as e:
         print("移动文件发生异常!")
         print(e)
@@ -133,18 +130,21 @@ def download_video(page_url, local_path, download_dir, dist_dir):
     session = login()
     article_list = get_article_detail(session, page_url)
     # 下载视频
-#    browser = selenium_login()
-#    for article in article_list:
-#        get_video(browser, article['url'])
+    browser = selenium_login()
+    for article in article_list:
+        get_video(browser, article['url'])
     # 移动文件
     move_files(download_dir, dist_dir)
     # 文件更名
-#    update_file_name(article_list, local_path)
+    update_file_name(article_list, local_path)
 
 
-url = "https://www.codecasts.com/series/refactoring-loops-with-collection"
+url = "https://www.codecasts.com/series/learn-http"
 folder = "/"
-src = "C:/Users/LiuQ/Downloads"
-dst = "F:/temp"
+# src = "C:/Users/LiuQ/Downloads"
+# dst = "F:/temp"
+
+src = "/home/liuq/Downloads"
+dst = "/home/liuq/Documents/temp"
 
 download_video(url, (dst + folder), src, dst)
