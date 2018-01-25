@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -66,7 +69,7 @@ def get_article_detail(session, url):
 
 def selenium_login():
     try:
-        browser = webdriver.Chrome("./chromedriver")
+        browser = webdriver.Chrome("./chromedriver.exe")
         browser.get("https://www.codecasts.com/user/login")
         browser.find_element_by_id("email").send_keys("malphitee@163.com")
         browser.find_element_by_id("password").send_keys("liuqiang1293")
@@ -90,6 +93,7 @@ def get_video(browser, url):
 
 def update_file_name(article_list, local_path):
     try:
+        
         path = os.listdir(local_path)
         for file_name in path:
             index = 0
@@ -98,10 +102,11 @@ def update_file_name(article_list, local_path):
                 if re.match(str(index) + "-", file_name):
                     origin_file_path = local_path + "/" + file_name
                     print("原文件名为%s" % origin_file_path)
-                    new_file_path = local_path + "/" + str(index) + "-" + article['title'] + "." + file_name.split('.')[
+                    new_file_path = local_path + "/" + str(index) + "-" + str(article['title']).replace('：','_').replace(':','_').replace(' ','') + "." + file_name.split('.')[
                         1]
                     print("新文件名为%s" % new_file_path)
                     os.rename(origin_file_path, new_file_path)
+                  
     except Exception as e:
         print("更改文件名错误!")
         print(e)
@@ -139,12 +144,13 @@ def download_video(page_url, local_path, download_dir, dist_dir):
     update_file_name(article_list, local_path)
 
 
-url = "https://www.codecasts.com/series/learn-http"
-folder = "/"
-# src = "C:/Users/LiuQ/Downloads"
-# dst = "F:/temp"
+url = "https://www.codecasts.com/series/build-a-zhihu-website-with-laravel"
+folder = ""
+src = "C:/Users/LiuQ/Downloads"
+dst = "F:/temp1"
 
-src = "/home/liuq/Downloads"
-dst = "/home/liuq/Documents/temp"
+#src = "/home/liuq/Downloads"
+#dst = "/home/liuq/Documents/temp"
 
 download_video(url, (dst + folder), src, dst)
+
